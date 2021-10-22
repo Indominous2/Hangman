@@ -1,0 +1,243 @@
+@import url('https://fonts.googleapis.com/css2?family=Scheherazade+New&display=swap');
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    background: rgb(129, 151, 185);
+    filter: contrast(0.95);
+    color: white;
+}
+
+h1 {
+    margin-top: 0.1rem;
+    color: rgba(174, 208, 236, 0.945);
+    font-size: 3.35rem;
+    font-family: 'Scheherazade New', serif;
+    text-align: center;
+    letter-spacing: 5px;
+    word-wrap: break-word;
+    text-underline-offset: 10px;
+    border-style: none;
+    text-decoration: underline double rgba(178, 207, 231, 0.589);
+    user-select: none;
+}
+
+span {
+    display: inline-block;
+}
+
+.hangmanCont {
+    min-height: 36%;
+    min-width: 35%;
+    position: absolute;
+    left: 50%;
+    top: 40%;
+    transform: translate(-50%, -50%);
+    border-radius: 3.5px;
+    background: rgba(226, 232, 235, 0.15);
+    box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37);
+    backdrop-filter: blur( 0px);
+    -webkit-backdrop-filter: blur( 0px);
+    border-radius: 10px;
+    border: 1px solid rgba( 255, 255, 255, 0.18);
+}
+
+.gamePart {
+    position: relative;
+}
+
+.lives {
+    width: 100%;
+    height: 15%;
+    font-size: 1.5rem;
+    text-align: right;
+    padding-right: 10px;
+    padding-top: 10px;
+    user-select: none;
+    background: rgb(88, 121, 172);
+    backdrop-filter: blur( 0px);
+    -webkit-backdrop-filter: blur( 0px);
+    -webkit-background-clip: text;
+    color: transparent;
+    letter-spacing: 1px;
+}
+
+.newWord {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    min-height: 85%;
+    min-width: auto;
+    font-size: 3rem;
+    font-size: 4rem;
+    padding: 0 9px 0 15px;
+    display: flex;
+    user-select: none;
+}
+
+.newWordCont {
+    height: 100%;
+    width: 65%;
+    position: absolute;
+}
+
+.lowerPortion {
+    height: 100%;
+    width: 30%;
+    text-align: center;
+}
+
+#hangImg {
+    filter: contrast(0.8) brightness(0.9);
+    height: 25%;
+    width: 25%;
+}
+
+.btnCont {
+    height: 10%;
+    width: 45%;
+    display: grid;
+    grid-template-columns: repeat(13, minmax(20px, 1fr));
+    grid-template-rows: 1fr 1fr;
+    grid-gap: 10px;
+    font-family: 'Scheherazade New', serif;
+    position: relative;
+    top: 55%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.btn {
+    flex: 200px 1 1;
+    height: 100%;
+    width: 100%;
+    border-radius: 25% 25%;
+    border: none;
+    outline: 2px solid rgb(92, 126, 177);
+    background: rgba(226, 232, 235, 0.15);
+    box-shadow: 0 8px 10px 0 rgba(31, 62, 135, 0.37);
+    backdrop-filter: blur( 0px);
+    -webkit-backdrop-filter: blur( 0px);
+    border-radius: 10px;
+    border: 1px solid rgba( 255, 255, 255, 0.18);
+    font-size: 1.1rem;
+    color: rgba(255, 255, 255, 0.671);
+    cursor: pointer;
+}
+
+.btn:hover {
+    background: rgba(255, 255, 255, 0.308);
+}
+
+.box-shadow {
+    box-shadow: inset 2px 15px 25px rgb(104, 129, 167);
+}
+
+.dim {
+    background: rgba(34, 34, 34, 0.445);
+}
+
+.spans {
+    display: block;
+    height: 4rem;
+    min-width: 30px;
+    border-bottom: 2px solid rgb(159, 214, 233);
+    padding: 2px;
+    margin-right: 5px;
+    color: rgba(255, 255, 255, 0.493)
+}
+
+.restart {
+    height: 1.8rem;
+    width: 5rem;
+    border: 1px solid rgb(103, 193, 221);
+    background: rgba(226, 232, 235, 0.15);
+    box-shadow: 0 8px 10px 0 rgba(31, 62, 135, 0.37);
+    backdrop-filter: blur( 0px);
+    -webkit-backdrop-filter: blur( 0px);
+    border-radius: 10px;
+    position: absolute;
+    right: 22%;
+    bottom: -5%;
+    transform: translate(-50%, -50%);
+    user-select: none;
+}
+
+.restart:hover {
+    background: rgba(255, 255, 255, 0.308);
+    cursor: pointer;
+}
+
+.deciderText {
+    min-height: 4.5rem;
+    width: 100%;
+    position: relative;
+    top: 55%;
+    text-align: center;
+    font-size: 3.5rem;
+    background: rgba(226, 232, 235, 0.548);
+    backdrop-filter: blur( 0px);
+    -webkit-backdrop-filter: blur( 0px);
+    -webkit-background-clip: text;
+    color: transparent;
+    user-select: none;
+    overflow-wrap: break-word;
+}
+
+.boxShadow {
+    box-shadow: 0 8px 10px 0 rgba(50, 88, 177, 0.37)
+}
+
+@media all and (max-width: 700px) and (min-height: 700px) {
+    .hangmanCont {
+        width: 95%;
+        height: 37%;
+    }
+    .newWordCont {
+        padding-left: 25px;
+        padding-right: 15px;
+    }
+    .newWord {
+        justify-content: left;
+    }
+}
+
+@media all and (min-width: 700px) and (max-width: 1000px) and (min-height: 700px) {
+    .hangmanCont {
+        width: 68%;
+        height: 37%;
+    }
+    .newWordCont {
+        padding-left: 10px;
+        padding-right: 0px;
+    }
+    .newWord {
+        justify-content: left;
+    }
+    .btnCont {
+        width: 68%;
+    }
+}
+
+@media all and (min-width: 1000px) and (max-width: 1400px) and (min-height: 700px) {
+    .hangmanCont {
+        width: 50%;
+        height: 37%;
+    }
+    .newWordCont {
+        padding-left: 20px;
+    }
+    .newWord {
+        justify-content: left;
+    }
+    .btnCont {
+        width: 50%;
+    }
+}

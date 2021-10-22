@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hangman Game</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <h1>HANG~MAN</h1>
+    <div class="hangmanCont">
+        <div class="lives">❤️❤️❤️❤️❤️❤️</div>
+        <div class="gamePart">
+            <span class="lowerPortion">
+                <svg height="210" width="500" style="padding-left: 15px; ">
+                    <line x1="0" y1="0" x2="0" y2="250" style="stroke:rgba(122, 17, 17, 0.822);stroke-width:15" />
+                    <line x1="0" y1="0" x2="102" y2="0" style="stroke:rgba(122, 17, 17, 0.822);stroke-width:15" />
+                    <line x1="4" y1="20" x2="32" y2="0" style="stroke:rgba(122, 17, 17, 0.822);stroke-width:9" />
+                    <line x1="102" y1="0" x2="102" y2="30" style="stroke:rgba(122, 17, 17, 0.822);stroke-width:4" />
+                </svg>
+            </span>
+            <span class="newWordCont">
+                <div class="newWord"></div>
+            </span>
+            <button class="restart">Reset</button>
+        </div>
+    </div>
+    <div class="btnCont">
+    </div>
+    <div class="deciderText"></div>
+    <!-- Javascript Portion -->
+    <script type="module" src="script.js"></script>
+</body>
+
+</html>
