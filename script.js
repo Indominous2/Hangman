@@ -28,6 +28,7 @@ let incrementer = []; // incrementer is the list which having all the indexes th
 let bodyCounter = 0; // body counter is for the animation when we click wrong button it's incremented by one and put inside in the hangman arr to get the hangman working
 let clicked = 0; // clicked is the button tells us how many times we click the button right time and incremented it
 let notAccessedItems = []; // it is the array of not accessed spans
+let canBeAccessedItems = []; // it is the array of accessed spans;
 let hintClicked = false; // hintClicked is the bollean to check if the hintBtn is clicked or not 
 
 // Function and logic
@@ -71,28 +72,38 @@ hint.addEventListener("click", hintFunc);
 let newSpanArr;
 
 function gettingRandomNumber() { // getting random Number for hint button only if the span's innerText is "" => blank;
-    let randomNumber = Math.floor(Math.random() * spansArr.length)
-
-    while (notAccessedItems.includes(randomNumber)) {
-        randomNumber = Math.floor(Math.random() * spansArr.length)
+    for (let i = 0; i < notAccessedItems.length; i++) {
+        canBeAccessedItems.splice(canBeAccessedItems.indexOf(notAccessedItems[i]), 1)
     }
-    console.log(randomNumber)
-    return randomNumber
+    let randomNumber = Math.floor(Math.random() * canBeAccessedItems.length)
+    let randomNum = canBeAccessedItems[randomNumber];
+    return randomNum
 }
+
+let guessNumIndexes = [];
 
 function hintFunc() { // all the hint functionality goes here
     let randomNumber = gettingRandomNumber();
     let guessNum = randomWord[randomNumber]; // this is the randomGuess in innerText;
-    spansArr[randomNumber].innerText = guessNum; // then we put inside of that particular spansArr index's innerText
-    spansArr[randomNumber].style.borderBottom = "none";
     spansArr[0].style.textTransform = "capitalize";
     hint.style.display = "none"; // set hint to display none
     hintClicked = true;
-    clicked += 1; // because
-    if (clicked == randomWord.length) {
-        console.log(true)
-        decider()
+    for (let i = 0; i < randomWord.length; i++) {
+        if (randomWord[i] === guessNum) {
+            guessNumIndexes.push(i);
+        }
     }
+    for (let i = 0; i < guessNumIndexes.length; i++) {
+        spansArr[guessNumIndexes[i]].innerText = guessNum
+        spansArr[guessNumIndexes[i]].style.borderBottom = "none";
+    }
+    for (let i = 0; i < btnsArr.length; i++) {
+        if (btnsArr[i].innerText === guessNum.toUpperCase()) {
+            btnsArr[i].classList.add("dim")
+        }
+    }
+    clicked += guessNumIndexes.length;
+    decider()
 }
 
 
@@ -100,7 +111,6 @@ let randomWord;
 
 function createSpans() { // createSpans according to the randomWord
     randomWord = getRandomWord();
-    console.log(randomWord)
 
     // creating a length of spans and put them into the changeWord variable
     for (let i = 0; i < randomWord.length; i++) {
@@ -108,16 +118,54 @@ function createSpans() { // createSpans according to the randomWord
         spansArr.push(spans);
         spans.classList.add("spans")
         changeWord.appendChild(spans);
-
+        canBeAccessedItems.push(i);
     }
-
 
 }
 createSpans()
 
 
 
+// Reset btn
 
+resetBtn.addEventListener("click", () => {
+    reset()
+})
+
+function reset() { // all reset Part right 
+    hintClicked = false;
+    hint.style.display = "inline-block"
+    notAccessedItems = [];
+    canBeAccessedItems = [];
+    guessNumIndexes = [];
+    decideText.classList.remove("boxShadow")
+    btnsArr.forEach(item => {
+        item.style.pointerEvents = "auto";
+        item.style.userSelect = "auto";
+        if (item.classList.contains("dim")) {
+            item.classList.remove("dim");
+            item.style.pointerEvents = "auto";
+            item.style.userSelect = 'auto';
+        }
+    })
+
+    bodyCounter = 0;
+    livesArr = ["❤️", "❤️", "❤️", "❤️", "❤️", "❤️"];
+    lives.innerText = "❤️❤️❤️❤️❤️❤️";
+    incrementer = []
+    svgCont.innerHTML = `
+                    <line x1="0" y1="0" x2="0" y2="250" style="stroke:rgba(122, 17, 17, 0.822);stroke-width:15" />
+                    <line x1="0" y1="0" x2="102" y2="0" style="stroke:rgba(122, 17, 17, 0.822);stroke-width:15" />
+                    <line x1="4" y1="20" x2="32" y2="0" style="stroke:rgba(122, 17, 17, 0.822);stroke-width:9" />
+                    <line x1="102" y1="0" x2="102" y2="30" style="stroke:rgba(122, 17, 17, 0.822);stroke-width:4" />
+                    `;
+    changeWord.innerHTML = "";
+    spansArr = [];
+    clicked = 0;
+
+    decideText.innerText = "";
+    createSpans()
+}
 
 
 
@@ -141,8 +189,11 @@ function gameLoop() {
                 }
                 clicked = incrementer.length;
                 if (hintClicked == true) {
-                    clicked += 1;
+                    clicked = incrementer.length + guessNumIndexes.length;
+                } else {
+                    clicked = incrementer.length;
                 }
+
 
                 for (let inc = 0; inc < incrementer.length; inc++) {
                     spansArr[incrementer[inc]].style.borderBottom = "none";
@@ -190,52 +241,14 @@ function decider() {
 
 }
 
-function allBtnDisNone() { // this is for the conciseness of the decider function
+function allBtnDisNone() { // this is for the conciseness for the decider function
     btnsArr.forEach(item => {
         item.style.pointerEvents = "none";
         item.style.userSelect = "none";
     })
 }
 
-function text(decide) { // this is for the concisness 
+function text(decide) { // this is for the concisness
     decideText.innerText = "You " + decide + "!! The Answer was: " + randomWord;
     decideText.classList.add("boxShadow");
-}
-
-
-// Reset btn
-
-resetBtn.addEventListener("click", () => {
-    reset()
-})
-
-function reset() { // all reset Part right 
-    hint.style.display = "inline-block"
-    decideText.classList.remove("boxShadow")
-    btnsArr.forEach(item => {
-        item.style.pointerEvents = "auto";
-        item.style.userSelect = "auto";
-        if (item.classList.contains("dim")) {
-            item.classList.remove("dim");
-            item.style.pointerEvents = "auto";
-            item.style.userSelect = 'auto';
-        }
-    })
-
-    bodyCounter = 0;
-    livesArr = ["❤️", "❤️", "❤️", "❤️", "❤️", "❤️"];
-    lives.innerText = "❤️❤️❤️❤️❤️❤️";
-    incrementer = []
-    svgCont.innerHTML = `
-                    <line x1="0" y1="0" x2="0" y2="250" style="stroke:rgba(122, 17, 17, 0.822);stroke-width:15" />
-                    <line x1="0" y1="0" x2="102" y2="0" style="stroke:rgba(122, 17, 17, 0.822);stroke-width:15" />
-                    <line x1="4" y1="20" x2="32" y2="0" style="stroke:rgba(122, 17, 17, 0.822);stroke-width:9" />
-                    <line x1="102" y1="0" x2="102" y2="30" style="stroke:rgba(122, 17, 17, 0.822);stroke-width:4" />
-                    `;
-    changeWord.innerHTML = "";
-    spansArr = [];
-
-
-    decideText.innerText = "";
-    createSpans()
 }
